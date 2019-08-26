@@ -1,0 +1,43 @@
+@import 'globals';
+
+@include react-md-everything;
+
+body {
+  margin: 0;
+}
+
+.buttons-container {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center
+}
+
+.fieldset {
+  margin: 0 10px 10px 10px;
+}
+
+.table-only-desktop {
+    display: none;
+}
+
+.table-button {
+  max-width: 50px;
+}
+
+a.logo{
+  margin-left: 5px;
+  padding: 5px 0;
+  img{
+    max-height: 60px;
+    max-width: 97%;
+  }
+}
+
+// desktop
+@media screen and (min-width: 768px) {
+  .table-only-desktop {
+      display: table-cell;
+  }
+}
