@@ -1,10 +1,6 @@
-import React, { Fragment } from 'react'
-import { LinearProgress, Snackbar } from 'react-md'
+import React from 'react'
+import { LinearProgress } from 'react-md'
 
-const Spinner = (props) =>
-  <Fragment>
-    <LinearProgress id='loading' scale={2} />
-    <Snackbar id='application-toasts' toasts={props.toasts} onDismiss={props.handleDismiss} />
-  </Fragment>
+const Spinner = (props) => <LinearProgress id='loading' scale={2} />
 
 export default Spinner

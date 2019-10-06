@@ -1,15 +1,17 @@
 import React, { Fragment } from 'react'
 import { TextField, Switch, DatePicker, SelectField, FontIcon } from 'react-md'
+import SelectSupplier from '../SelectSupplier'
 import './_style.scss'
 
 const dbDateToDate = (value) => {
   return value ? new Date(value) : null
 }
 
-const InlineEditor = ({ element, onChange, value, defaultValue, error, onSelect }) => {
+const InlineEditor = ({ element, onChange, value, defaultValue, error, handleChangeName }) => {
   return (<Fragment>
     { (element.type === 'text' || element.type === 'json') &&
       <TextField
+        disabled={!element.edit}
         id={element.field}
         name={element.field}
         label={element.label}
@@ -75,6 +77,7 @@ const InlineEditor = ({ element, onChange, value, defaultValue, error, onSelect 
         errorText={error}
         className={`${element.className} numeric-field`}
         onChange={onChange}
+        disabled={!element.edit}
         type='number'
       />
     }
@@ -150,6 +153,18 @@ const InlineEditor = ({ element, onChange, value, defaultValue, error, onSelect 
         sameWidth
       />
     }
+    {(element.type === 'select-supplier') &&
+      <SelectSupplier
+          id={element.field}                                          
+          onChange={onChange}
+          onAutocomplete={handleChangeName}
+          value={value || ''}
+          label={element.label}
+          allowAdd={element.allowAdd}
+          className={element.className}
+          defaultValue={element.defaultValue}
+      />
+}
   </Fragment>)
 }
 

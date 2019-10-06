@@ -1,6 +1,8 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import * as JsStore from 'jsstore'
-import { DATA_TYPE } from 'jsstore' // IDataBase, /, ITable
+import { tblSuppliers } from '../model/supplier'
+import { tblParameters } from '../model/parameter'
+import { tblWithholdings } from '../model/document'
 
 const getWorkerPath = () => {
   if (process.env.NODE_ENV === 'development') {
@@ -17,32 +19,10 @@ export const idbCon = new JsStore.Instance(new Worker(workerPath))
 export const dbname = 'Retenciones'
 
 const getDatabase = () => {
-  const tblSuppliers = {
-    name: 'Suppliers',
-    columns: {
-      id: {
-        primaryKey: true,
-        autoIncrement: true
-      },
-      name: {
-        notNull: true,
-        dataType: DATA_TYPE.String
-      },
-      rif: {
-        notNull: true,
-        dataType: DATA_TYPE.String
-      },
-      address: {
-        dataType: DATA_TYPE.String
-      },
-      phone: {
-        dataType: DATA_TYPE.String
-      }
-    }
-  }
+  
   const dataBase = {
     name: dbname,
-    tables: [tblSuppliers]
+    tables: [tblSuppliers, tblWithholdings, tblParameters]
   }
   return dataBase
 }

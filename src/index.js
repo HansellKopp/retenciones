@@ -7,5 +7,17 @@ import registerServiceWorker from './registerServiceWorker'
 import 'typeface-roboto/index.css'
 import 'material-design-icons/iconfont/material-icons.css'
 
-ReactDOM.render(<Router><App /></Router>, document.getElementById('root'))
+import { reducer } from './reducer'
+import { StateProvider } from './state'
+import { initialState } from './reducer/initialState'
+
+const Main = () => 
+    <Router>
+      <StateProvider initialState={initialState} reducer={reducer}>
+        <App />
+      </StateProvider >
+    </Router>
+
+
+ReactDOM.render(<Main />, document.getElementById('root'))
 registerServiceWorker()

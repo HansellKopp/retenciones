@@ -3692,3 +3692,9 @@ a.logo {
 @media screen and (min-width: 768px) {
   .table-only-desktop {
     display: table-cell; } }
+
+.text-field hr {
+  margin-top: 15px; }
+
+.date-field hr {
+  margin-top: 14px; }

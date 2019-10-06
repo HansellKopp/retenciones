@@ -3,29 +3,33 @@ import useReactRouter from 'use-react-router'
 import { hasPermission } from '../../utils'
 import Presenter from './presenter'
 import { DbService } from '../../service/dbService'
-const service = new DbService('Suppliers')
+import { useStateValue } from '../../state'
+const service = new DbService('Parameters')
 
 const options = {
-  url: '/suppliers',
-  title: 'Proveedor',
-  titleNew: 'Nuevo proveedor',
-  actionList: 'Proveedores',
-  actionDelete: 'Eliminar',
+  url: '/',
+  title: 'Parametro',
+  titleNew: 'Nuevos parametros',
+  actionList: null,
+  actionDelete: null,
   actionCancel: 'Cancelar',
   actionCreate: 'Crear',
   actionUpdate: 'Actualizar',
-  addNew: 'Crear proveedor',
-  deleted: 'Proveedor eliminado',
-  saved: 'Proveedor guardado correctamente',
+  addNew: null,
+  deleted: null,
+  saved: 'Parametros guardados correctamente',
   continue: 'Continuar',
-  canCreate: hasPermission('supplier_create'),
-  canUpdate: hasPermission('supplier_update'),
-  canDelete: hasPermission('supplier_delete'),
+  canCreate: hasPermission('parametros_create'),
+  canUpdate: hasPermission('parametros_update'),
+  canDelete: false,
   fields: [
     {field: 'rif', label: 'Cedula Rif', type: 'text', edit: true, className: 'md-cell md-cell--6'},
     {field: 'name', label: 'Razon Social', type: 'text', edit: true,  className: 'md-cell md-cell--6'},
     {field: 'address', label: 'Direccion', type: 'text', edit: true, className: 'md-cell md-cell--12'},
-    {field: 'phone', label: 'Telefono', type: 'text', edit: true, className: 'md-cell md-cell--6'}
+    {field: 'period', label: 'Periodo', type: 'number', edit: true, className: 'md-cell md-cell--6'},
+    {field: 'aliquot', label: 'Alicuota', type: 'number', edit: true, className: 'md-cell md-cell--2'},
+    {field: 'vaucher', label: 'Ultimo Comprobante', type: 'number', edit: true, className: 'md-cell md-cell--2'},
+    {field: 'percentage', label: 'Porcentaje Retencion', type: 'number', edit: true, className: 'md-cell md-cell--2'}
   ],
   defaultState: { data:{}, toasts:[], loading: true, isNew: true },
   errors: []
@@ -33,6 +37,8 @@ const options = {
 
 function Container () {
   const [state, setState] = useState(options.defaultState)
+  // eslint-disable-next-line no-unused-vars
+  const [{ parameters }, dispatch] = useStateValue();
   const { history, match } = useReactRouter()
   const id = match.params.id
 
@@ -57,14 +63,6 @@ function Container () {
   }
 
   const eventHandler = {
-    handleDelete: async () => {
-      await service.removeItem(id)
-      setToast([{
-        text: options.deleted,
-        action: options.continue,
-        onDismiss: () => history.push(`${options.url}`)}
-      ])
-    },
     handleSubmit: async e => {
       e.preventDefault()
       if (state.isNew) {
@@ -81,7 +79,14 @@ function Container () {
         if(item) {
           setToast([{text: props.saved,
             action: options.continue,
-            onDismiss: () => history.push(`${options.url}`)}])
+            onDismiss: () => {
+              dispatch({
+                type: 'updateParameters',
+                parameters: { ...state.data, loading: false }
+              })
+              history.push(`${options.url}`)
+            }
+          }])
           return
         }
       }
@@ -89,7 +94,7 @@ function Container () {
     setData: data => {
       setState({ ...state, data })
     },
-    handleDismiss: () => {}
+    handleDismiss: () => {},
   }
 
   const props = { ...options, ...state, ...eventHandler }

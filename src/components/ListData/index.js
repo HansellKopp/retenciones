@@ -14,6 +14,14 @@ import Spinner from '../Spinner'
 import FilterBar from '../FilterBar'
 import uuid from 'uuid/v1'
 import useReactRouter from 'use-react-router'
+import moment from 'moment'
+
+const formatField = (item, field) => {
+  if(field.format === 'date') {
+    return moment(item[field.key]).format('L')
+  }
+  return item[field.key]
+}
 
 function ListData (props) {
   const { history } = useReactRouter()
@@ -101,7 +109,7 @@ const ListItems = props => {
                   <TableColumn key={uuid()}
                     className={field.class} style={field.style}
                   >
-                    {item[field.key]}
+                    {formatField(item, field)}
                   </TableColumn>)}
                 <TableColumn adjusted={false}><Button icon >chevron_right</Button></TableColumn>
               </Fragment>

@@ -62,6 +62,7 @@ const validators = {
 export const validateFields = (values, validations) => {
   if (!validations) return null
   const errors = {}
+  // eslint-disable-next-line
   Object.keys(values).map(key => {
     const value = values[key]
     const validation = validations[key]
@@ -101,6 +102,7 @@ export const serializeForm = (form) => {
 
 export const dataToForm = (data) => {
   var formData = new window.FormData()
+  // eslint-disable-next-line
   Object.keys(data).map(s => {
     formData.append(s, data[s])
   })
