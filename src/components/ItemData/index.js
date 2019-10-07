@@ -1,12 +1,15 @@
-import React from 'react'
-import { Paper, Snackbar, Button } from 'react-md'
+import React, { useState } from 'react'
+import { Paper, Snackbar, Button, DialogContainer, FontIcon } from 'react-md'
 import InlineEditor from '../InlineEditor'
 import Spinner from '../Spinner'
 import { validateField } from '../../utils/forms'
 import useReactRouter from 'use-react-router'
 
+import './_style.scss'
+
 function ItemData (props) {
   const { history } = useReactRouter()
+  const [ showDialog, setDialog ] = useState(false)
 
   const eventHandler = {
     handleList: () => history.push(`${props.url}`),
@@ -34,14 +37,47 @@ function ItemData (props) {
         props.toasts[0].onDismiss()
       }
       props.setData({ ...props.data, toasts: []})
+    },
+    handleToggle: () => {
+      setDialog(!showDialog)
     }
   }
 
-  props = { ...props, ...eventHandler }
+  props = { ...props, ...eventHandler, showDialog }
 
   return (
     <Presenter {...props} />
   )
+}
+
+const Dialog = props => {
+
+  const actions = [{
+    id: 'dialog-cancel',
+    secondary: true,
+    children: 'Cancelar',
+    onClick: () => props.handleToggle(),
+  }, {
+    id: 'dialog-ok',
+    primary: true,
+    children: 'Ok',
+    onClick: () => {
+      props.handleDelete()
+      props.handleToggle()
+    },
+  }]
+
+  return (
+  <DialogContainer
+    id="focus-control-dialog"
+    title={<div class="title"><FontIcon inherit>warning</FontIcon><span>Alerta</span></div> }
+    visible={props.showDialog}
+    actions={actions}
+    onHide={props.handleToggle}
+    dialogClassName="dialog-title"
+  >
+    <span>Realmente desea eliminar este registro ?</span>
+  </DialogContainer>)
 }
 
 const Form = props => 
@@ -79,6 +115,7 @@ const Form = props =>
   }
 </div>
 </form>
+
 const Presenter = (props) =>
   <section className='md-grid md-grid--40-16'>
     <div className='md-cell md-cell--12'>
@@ -101,12 +138,13 @@ const Presenter = (props) =>
           <Button
             floating mini
             iconChildren='delete'
-            onClick={props.handleDelete}
+            onClick={props.handleToggle}
             tooltipLabel={props.actionDelete || 'Remove'}
           />}
         </div>
         {props.data ? 
           <>
+            <Dialog {...props} />
             <Form {...props} />
             <Snackbar id='application-toasts' toasts={props.toasts} onDismiss={props.handleDismiss} />
           </>
