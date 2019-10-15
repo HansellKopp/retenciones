@@ -4,6 +4,7 @@
 .dialog-title {
     h2 {
         background-color: #2962ff;
+        border-bottom:#F44336 solid 2px;
     }
     .title {
          display: flex;
@@ -15,14 +16,14 @@
         }
      }
      i {
-         font-size: 36px;
+         padding: 8px 10px;
          border-radius: 50%;
-         padding: 12px;
-         background-color: #5e89ff !important;
-         color: #fff !important;
+         color: #F44336 !important;         
+         font-size: 36px !important;
+         background-color: #fff !important;
      }
 
      .md-dialog-content {
-         padding: 24px;
+         padding: 20px;
      }
 }
