@@ -12,7 +12,7 @@ import {
 } from 'react-md'
 import Spinner from '../Spinner'
 import FilterBar from '../FilterBar'
-import uuid from 'uuid/v1'
+import { v1 as uuid } from 'uuid';
 import useReactRouter from 'use-react-router'
 import moment from 'moment'
 

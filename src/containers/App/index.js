@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useStateValue } from '../../state'
-import uuid from 'uuid/v1'
+import { v1 as uuid } from 'uuid';
 import { Route, Switch } from 'react-router-dom'
 import { Subheader, Divider, NavigationDrawer, Button } from 'react-md'
 import { DbService } from '../../service/dbService'
@@ -48,7 +48,6 @@ const toolbarActions = () => {
 
 const App = props => {
   const [{ parameters }, dispatch] = useStateValue();
-  console.log(parameters)
   useEffect(() => {
     async function fetchData () {
       try {
